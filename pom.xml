@@ -23,6 +23,13 @@
       </plugin>
     </plugins>
   </build>
+  <reporting>
+	<plugins>
+		<plugin>
+			<artifactId>maven-javadoc-plugin</artifactId>
+		</plugin>
+	</plugins>
+  </reporting>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
