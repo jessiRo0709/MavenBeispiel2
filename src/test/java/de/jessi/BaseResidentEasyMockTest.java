@@ -2,6 +2,7 @@ package de.jessi;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.easymock.EasyMock.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,7 +12,7 @@ import org.junit.Test;
 
 public class BaseResidentEasyMockTest {
 	 @Test   
-	 public void test(){ 
+	 public void test() throws ResidentServiceException{ 
 		 Date d = new Date(12,9,1999);
 		 Resident r1= new Resident("Herman", "Mayer", "Brunnenweg1", "Donaueschingen", d);
 		 Resident r2= new Resident("Hans", "Hofacker", "Brunnenweg1", "Donaueschingen", d);
@@ -21,25 +22,33 @@ public class BaseResidentEasyMockTest {
 		 lH1.add(r1);
 		 lH1.add(r2);
 		 
-		 ResidentRepository residentRepositoryMock = createMock(ResidentRepository.class);
-		 BaseResidentService service= new BaseResidentService ();
-		// service.setResidentRepository(stub);
-		 
-		 assertEquals("H* und *", lH1.size(), service.getFilteredResidentsList(r3).size());
-		 
+		
 		 
 		 Resident r4= new Resident("Herman", "Mayer", "Brunnenweg1", "Donaueschingen", d);
-		 Resident r5= new Resident("Hans", "Hofacker", "Brunnenweg1", "Donaueschingen", d);
+		 Resident r5= new Resident("Susi", "Hofacker", "Brunnenweg1", "Donaueschingen", d);
 		 Resident r6= new Resident("H*", "Mayer", "Brunnenweg1", "Donaueschingen", d);
 		 
 		 List<Resident> lH2= new ArrayList<Resident>();
 		 lH2.add(r1);
+		 lH2.add(r2);
+		 lH2.add(r5);
 		 
-		 ResidentRepository stub2 = new ResidentRepositoryStub();
-		 BaseResidentService service2= new BaseResidentService ();
-		 service.setResidentRepository(stub2);
+		 ResidentRepository residentRepositoryMock = createMock(ResidentRepository.class);
+		 BaseResidentService service= new BaseResidentService ();
 		 
-		 assertEquals("H*", lH2.size(), service.getFilteredResidentsList(r6).size());
+		 expect(residentRepositoryMock.getResidents()).andReturn(lH1); 
+		 expect(residentRepositoryMock.getResidents()).andReturn(lH2); 
+		 
+		
+		 
+		 replay(residentRepositoryMock);
+		 
+		 service.setResidentRepository(residentRepositoryMock);	
+		 
+		 service.getFilteredResidentsList(r3);
+		 service.getUniqueResident(r5);
+		 
+		 verify(residentRepositoryMock);
 	 }
 	 
 
