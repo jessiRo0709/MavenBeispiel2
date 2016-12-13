@@ -44,13 +44,17 @@ public class BaseResidentServiceTest {
 		 assertEquals("H*", lH2.size(), service.getFilteredResidentsList(r6).size());
 	 }
 	 
-	 public void testGetUniqueResident(Resident filterResident) throws ResidentServiceException {
+	 @Test  
+	 public void testGetUniqueResident() throws ResidentServiceException{
 		 Date d = new Date(12,9,1999);
 		 Resident r1= new Resident("Herman", "Mayer", "Brunnenweg1", "Donaueschingen", d); 	
 		 Resident r2= new Resident("Hans", "Hofacker", "Brunnenweg1", "Donaueschingen", d);
+		 Resident r3= new Resident("H*", "*", "Brunnenweg1", "Donaueschingen", d);
+		 
 		 List<Resident> lH1= new ArrayList<Resident>();
 		 lH1.add(r1);
 		 lH1.add(r2);
+		 lH1.add(r3);
 		 
 		 ResidentRepository stub = new ResidentRepositoryStub();
 		 BaseResidentService service= new BaseResidentService ();
@@ -58,6 +62,20 @@ public class BaseResidentServiceTest {
 		 
 		 assertEquals("Herman vorhanden?", lH1.get(0).getGivenName(), service.getUniqueResident(r1).getGivenName());
 		 
+		 Resident r4= new Resident("Susi", "Mayer", "Brunnenweg1", "Donaueschingen", d);
+		     
+		 
+		 try{      
+			 service.getUniqueResident(r3);
+			fail("Erwartete Ausnahme wurde nicht geworfen");     
+			} catch(ResidentServiceException e){ }
+		 
+		 try{      
+			 service.getUniqueResident(r4);
+			fail("Erwartete Ausnahme wurde nicht geworfen");     
+			} catch(ResidentServiceException e){ }
+
+
 	 }
 
 }

@@ -10,6 +10,7 @@ public class ResidentRepositoryStub implements ResidentRepository{
 	private Resident r1= new Resident("Herman", "Mayer", "Brunnenweg1", "Donaueschingen", d);
 	private Resident r2= new Resident("Hans", "Hofacker", "Brunnenweg1", "Donaueschingen", d);
 	private Resident r3= new Resident("Susi", "Mayer", "Brunnenweg1", "Donaueschingen", d);
+	private Resident r4= new Resident("Susi", "Mayer", "Brunnenweg1", "Donaueschingen", d);
 	
 	List<Resident> l= new ArrayList<Resident>();
 	
@@ -21,7 +22,7 @@ public class ResidentRepositoryStub implements ResidentRepository{
 		l.add(r1);
 		l.add(r2);
 		l.add(r3);
-		
+		l.add(r4);
 		// TODO Auto-generated constructor stub
 	}
 
